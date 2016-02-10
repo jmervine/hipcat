@@ -1,0 +1,9 @@
+# required
+room: room-name
+token: user-api-token
+
+# for 'sender', default is 'hipcat'
+# sender: My Hipcat
+
+# for 'host', protocol and api path are required
+# host: https://hipchat.example.com/v2/
