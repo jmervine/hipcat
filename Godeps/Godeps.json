@@ -15,9 +15,9 @@
 			"Rev": "2a60fc2ba6c19de80291203597d752e9ba58e4c0"
 		},
 		{
-			"ImportPath": "github.com/tbruyelle/hipchat-go/hipchat",
-			"Comment": "v1.1-22-g55738d3",
-			"Rev": "55738d370904e36b63c09c27a60ee92685d4e915"
+			"ImportPath": "github.com/jmervine/hipchat-go/hipchat",
+			"Comment": "v1.1-24-g214fa38",
+			"Rev": "214fa386dd156a65a8e28242bc9641983972e2cd"
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v2",

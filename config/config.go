@@ -9,7 +9,7 @@ import (
 	"github.com/jmervine/hipcat/Godeps/_workspace/src/gopkg.in/yaml.v2"
 )
 
-const DEFAULT_CONFIG = "~/.hipcat"
+var DefaultConfig = "~/.hipcat"
 
 func ReplaceHome(path string) (string, error) {
 	if os.Getenv("HOME") == "" {
@@ -24,8 +24,16 @@ type Config struct {
 	Token   string `yaml:"token"`
 	Sender  string `yaml:"sender"`
 	Host    string `yaml:"host"`
+	Code    string `yaml:"code"`
+	Color   string `yaml:"color"`
+	Notify  string `yaml:"notify"`
 	Conf    string
 	Message []byte
+}
+
+func ToBool(s string) bool {
+	s = string([]byte(strings.ToLower(s))[0])
+	return (s == "t" || s == "y")
 }
 
 func (config *Config) LoadConfig(source string) error {
@@ -68,6 +76,16 @@ func (c *Config) ReadMessage() error {
 }
 
 func (c *Config) FormattedMessage() string {
+	format := "%s"
+
+	if ToBool(c.Code) {
+		format = "/code %s"
+	}
+	return fmt.Sprintf(format,
+		string(c.Message[:len(c.Message)-1]))
+}
+
+func (c *Config) FormattedNotification() string {
 	return fmt.Sprintf("<pre>%s</pre>",
 		string(c.Message[:len(c.Message)-1]))
 }

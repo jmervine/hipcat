@@ -16,7 +16,7 @@ func main() {
 			return err
 		}
 
-		err = client.Notify(h, cfg)
+		err = client.Message(h, cfg)
 		if err != nil {
 			return err
 		}

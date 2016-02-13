@@ -20,7 +20,7 @@ func Run(action func(cfg *config.Config) error) {
 	app := cli.NewApp()
 	app.Name = "hipcat"
 	app.Usage = "read file or stdin to hipchat"
-	app.Version = "0.0.1"
+	app.Version = "0.0.2"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:   "room, r",
@@ -47,7 +47,25 @@ func Run(action func(cfg *config.Config) error) {
 			EnvVar: "HIPCAT_HOST",
 		},
 		cli.StringFlag{
-			Name:   "config, c",
+			Name:   "code, x",
+			Value:  "true",
+			Usage:  "message is code, w/o --notify",
+			EnvVar: "HIPCAT_CODE",
+		},
+		cli.StringFlag{
+			Name:   "notify, n",
+			Value:  "false",
+			Usage:  "notify in hipchat",
+			EnvVar: "HIPCAT_NOTIFY",
+		},
+		cli.StringFlag{
+			Name:   "color, c",
+			Value:  "purple",
+			Usage:  "hipchat notification color w/ --notify",
+			EnvVar: "HIPCAT_COLOR",
+		},
+		cli.StringFlag{
+			Name:   "config, C",
 			Value:  "",
 			Usage:  "hipcat config file ",
 			EnvVar: "HIPCAT_CONFIG",
@@ -59,7 +77,7 @@ func Run(action func(cfg *config.Config) error) {
 		 * Initialize Config w/ default config file.
 		 */
 		cfg := new(config.Config)
-		defaultConfig, _ := config.ReplaceHome(config.DEFAULT_CONFIG)
+		defaultConfig, _ := config.ReplaceHome(config.DefaultConfig)
 		cfg.LoadConfig(defaultConfig)
 
 		/*
@@ -104,6 +122,18 @@ func Run(action func(cfg *config.Config) error) {
 
 		if cfg.Sender == "" {
 			cfg.Sender = c.String("sender")
+		}
+
+		if cfg.Code == "" {
+			cfg.Code = c.String("code")
+		}
+
+		if cfg.Color == "" {
+			cfg.Color = c.String("color")
+		}
+
+		if cfg.Notify == "" {
+			cfg.Notify = c.String("notify")
 		}
 
 		if err := cfg.Require(); err != nil {
